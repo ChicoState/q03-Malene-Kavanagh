@@ -31,12 +31,12 @@ TEST(GuesserTest, case_sensitive_test){
 TEST(GuesserTest, different_test){
 	Guesser object("different");
 	ASSERT_FALSE(object.match("same"));
-	ASSERT_EQ(object.remaining(), 3);
+	ASSERT_EQ(object.remaining(), 0);
 }
 
 TEST(GuesserTest, nothing_match_test){
 	Guesser object("");
-	object.match("");
+	ASSERT_TRUE(object.match(""));
 	ASSERT_EQ(object.remaining(), 3);
 }
 
@@ -52,7 +52,7 @@ TEST(GuesserTest, almost_test){
 	object.match("clos"); //  dist of 1
 	object.match("closs"); //dist of 1
 	ASSERT_TRUE(object.match("close")); //  its a match
-	ASSERT_EQ(object.remaining(), 1);
+	ASSERT_EQ(object.remaining(), 3); //guesses reset
 }
 
 TEST(GuesserTest, too_many_characters_test){
@@ -67,7 +67,7 @@ TEST(GuesserTest, too_many_test) {
 	object.match("testa");
 	object.match("tents");
 	object.match("testw");
-	ASSERT_TRUE(object.match("tests")); //after 3 guesses all answers are locked
+	ASSERT_FALSE(object.match("tests")); //after 3 guesses all answers are locked
 	ASSERT_EQ(object.remaining(),0);
 }
 
